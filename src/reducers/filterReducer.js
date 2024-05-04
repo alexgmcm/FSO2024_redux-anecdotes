@@ -1,15 +1,18 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialState = ""
 
-export const createModifyAction = (filterText) => {
-    return {type:"MODIFY", payload: {filterText: filterText}}
-}
-const reducer = (state=initialState, action) => {
-    switch (action.type){
-        case "MODIFY":
+const filterSlice = createSlice({
+    name: 'filter',
+    initialState,
+    reducers: {
+        modifyFilter(state,action){
             return action.payload.filterText
-        default:
-            return state
-    }
-}
+        }
+    },
+})
 
-export default reducer
+export const {modifyFilter} = filterSlice.actions 
+
+export default filterSlice.reducer
+

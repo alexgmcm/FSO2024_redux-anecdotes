@@ -1,18 +1,22 @@
-import { createAddAction} from '../reducers/anecdoteReducer'
+import { addAnecdote, createAddPayload} from '../reducers/anecdoteReducer'
 import { useDispatch } from 'react-redux'
+import { modifyNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
 
-    const addAnecdote = (event) => {
+    const handleAddAnecdote = (event) => {
         event.preventDefault()
-        dispatch(createAddAction(event.target.content.value))
+        const content = event.target.content.value
+        dispatch(addAnecdote(createAddPayload(content)))
+        dispatch(modifyNotification({notificationText:`you added ${content}`}))
+        setTimeout(() => {dispatch(modifyNotification({notificationText:""}))},5000)
       } 
 
     return (
         <div>
         <h2>create new</h2>
-      <form onSubmit={addAnecdote}>
+      <form onSubmit={handleAddAnecdote}>
         <div><input name="content"/></div>
         <button>create</button>
       </form>

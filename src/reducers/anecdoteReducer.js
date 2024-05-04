@@ -19,11 +19,26 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
+export const createVoteAction = (id) => {
+  return {type: "VOTE", payload: {id: id}}
+}
+
+export const createAddAction = (content) => {
+ return {type:"ADD", payload: {id: getId(), votes:0, content: content}}
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-
+  if (action.type=="VOTE"){
+     return state.map(x => x.id!=action.payload.id ? x : {...x, votes: x.votes + 1}).sort((a,b) => b.votes - a.votes)
+  }
+  if (action.type == "ADD"){
+    return state.concat(action.payload)
+  }
+  else {
   return state
+  }
 }
 
 export default reducer
